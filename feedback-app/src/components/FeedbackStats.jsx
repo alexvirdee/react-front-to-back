@@ -10,8 +10,6 @@ function FeedbackStats({ feedback }) {
 
   average = average.toFixed(1).replace(/[.,]0$/, '');
 
-  console.log(average);
-
   return (
     <div className="feedback-stats">
       <h4>{feedback.length} Reviews</h4>
