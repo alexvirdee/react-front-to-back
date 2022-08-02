@@ -1,6 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 function UserResults() {
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     fetchUsers();
   }, []);
@@ -8,16 +11,24 @@ function UserResults() {
   const fetchUsers = async () => {
     const response = await fetch(`${process.env.REACT_APP_GITHUB_URL}/users`, {
       headers: {
-        Authorizations: `token ${process.env.REACT_APP_GITHUB_TOKEN}`,
+        'Content-Type': 'application/json',
+        Authorization: `token ${process.env.REACT_APP_GITHUB_TOKEN}`,
       },
     });
 
     const data = await response.json();
 
-    console.log({ data });
+    setUsers(data);
+    setLoading(false);
   };
 
-  return <div>UserResults</div>;
+  return (
+    <div className="grid grid-cols-1 gap-8 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2">
+      {users.map((user) => (
+        <h3>{user.login}</h3>
+      ))}
+    </div>
+  );
 }
 
 export default UserResults;
